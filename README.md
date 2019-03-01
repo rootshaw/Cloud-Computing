@@ -43,7 +43,7 @@ URL: http://cloud.ib9g3mmngc.us-west-2.elasticbeanstalk.com
 
 - **URL**
 
-  /webapi/professors/AllProfessors
+  /webapi/professors/all
 
 - **Method:**
 
