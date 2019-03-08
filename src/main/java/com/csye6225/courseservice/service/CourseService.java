@@ -7,11 +7,10 @@ import java.util.List;
 import com.csye6225.courseservice.datamodel.Course;
 import com.csye6225.courseservice.datamodel.InMemoryDatabase;
 import com.csye6225.courseservice.datamodel.Lecture;
-import com.csye6225.courseservice.datamodel.Program;
 import com.csye6225.courseservice.datamodel.Student;
 
 public class CourseService {
-	static HashMap<String, Course> course_Map = InMemoryDatabase.getCourseDB();
+	static private HashMap<Long, Course> course_Map = InMemoryDatabase.getCourseDB();
 
 	// get all courses
 	public List<Course> getAllCourses() {
@@ -20,67 +19,83 @@ public class CourseService {
 		return list;
 	}
 
-	// get all courses of a program
-	public List<Course> getCoursesByProgram(Program program) {
-		return program.getCourses();
-	}
-
-	// add a course
+	// add a new course
 	public Course addCourse(Course course) {
-		course_Map.put(course.getId(), course);
+		if (course_Map.get(course.getCourseId()) != null)
+			return null;
+		course_Map.put(course.getCourseId(), course);
 		return course;
 	}
 
-	// add a lecture to course
-	public Lecture addLectureToCourse(String courseId, Lecture lecture) {
-		Course course = course_Map.get(courseId);
-		course.addLectures(lecture);
+	// update course id
+	public Course updateCourseId(long courseId, Course course) {
+		if (course_Map.get(course.getCourseId()) == null)
+			return null;
+		course_Map.remove(course.getCourseId());
+		course.setCourseId(courseId);
 		course_Map.put(courseId, course);
-		return lecture;
+		return course;
 	}
 
-	// add a student to course
-	public Student addStudentToCourse(String courseId, Student student) {
+	// search a course by Id
+	public Course searchCourse(long courseId) {
+		return course_Map.get(courseId);
+	}
+
+	// add a student to course by id
+	public Student addStudentToCourse(long courseId, Student student) {
 		Course course = course_Map.get(courseId);
+		if (course.getStudents().contains(student))
+			return null;
 		course_Map.get(courseId).getStudents().add(student);
 		course_Map.put(courseId, course);
 		return student;
 	}
 
-	// get a course
-	public Course getCourse(String courseId) {
-		return course_Map.get(courseId);
+	// add a lecture to course
+	public Lecture addLectureToCourse(long courseId, Lecture lecture) {
+		Course course = course_Map.get(courseId);
+		if (course.getLectures().contains(lecture))
+			return null;
+		course.addLectures(lecture);
+		course_Map.put(courseId, course);
+		return lecture;
 	}
 
-	// delete a course
-	public Course deleteCourse(String courseId) {
+	// delete a course by id
+	public Course deleteCourse(long courseId) {
 		Course deletedCourse = course_Map.get(courseId);
+		if (deletedCourse == null)
+			return null;
 		course_Map.remove(courseId);
 		return deletedCourse;
 	}
 
-	// delete a student in a course
-	public Student deleteStudent(String courseId, long studentId) {
+	// delete a student in a course by id
+	public Student deleteStudent(long courseId, long studentId) {
 		Student student = InMemoryDatabase.getStudentDB().get(studentId);
 		Course course = course_Map.get(courseId);
+		if (course == null)
+			return null;
+		if (!course.getStudents().contains(student))
+			return null;
 		course.getStudents().remove(student);
 		course_Map.put(courseId, course);
 		return student;
 	}
 
-	// delete a lecture in a course
-	public Lecture deleteLecture(String courseId, int lecId) {
-		Lecture lecture = LectureService.lec_Map.get(lecId);
+	// delete a lecture in a course by id
+	public Lecture deleteLecture(long courseId, long lectureId) {
+		Lecture lecture = InMemoryDatabase.getLectureDB().get(lectureId);
 		Course course = course_Map.get(courseId);
-		course.getLectures().remove(lecture);
-		course_Map.put(courseId, course);
-		return lecture;
+		if (course == null)
+			return null;
+		if (course.getLectures().contains(lecture)) {
+			course.getLectures().remove(lecture);
+			course_Map.put(courseId, course);
+			return lecture;
+		}
+		return null;
 	}
 
-	// update a course
-	public Course updateCourseInformation(String courseId, Course course) {
-		course.setId(courseId);
-		course_Map.put(courseId, course);
-		return course;
-	}
 }

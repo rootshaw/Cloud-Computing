@@ -1,24 +1,26 @@
 package com.csye6225.courseservice.datamodel;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Professor {
-	private String id;
+	private long id;
 	private String firstName;
 	private String lastName;
 	private String department;
 	private String professorId;
 	private String joiningDate;
 
-	public Professor() {
-
-	}
-
-	public Professor(String professorId, String firstName, String lastName, String department, String joiningDate) {
+	@JsonCreator
+	public Professor(@JsonProperty("professorId") String professorId, @JsonProperty("firstName") String firstName,
+			@JsonProperty("lastName") String lastName, @JsonProperty("department") String department,
+			@JsonProperty("joiningDate") String joiningDate, @JsonProperty("id") long id) {
 		this.professorId = professorId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.department = department;
 		this.joiningDate = joiningDate;
-		this.id = Math.abs((professorId + joiningDate).hashCode()) + "";
+		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -61,11 +63,11 @@ public class Professor {
 		this.joiningDate = joiningDate;
 	}
 
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

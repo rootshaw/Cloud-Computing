@@ -2,6 +2,8 @@
 
 URL: http://cloud.ib9g3mmngc.us-west-2.elasticbeanstalk.com
 
+Postman URL:https://www.getpostman.com/collections/65ba8773e252197a672c
+
 ## Sample API
 
 
@@ -43,7 +45,7 @@ URL: http://cloud.ib9g3mmngc.us-west-2.elasticbeanstalk.com
 
 - **URL**
 
-  /webapi/professors/all
+  /webapi/professors/AllProfessors
 
 - **Method:**
 

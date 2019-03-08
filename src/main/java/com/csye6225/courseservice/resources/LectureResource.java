@@ -23,12 +23,8 @@ public class LectureResource {
 	@GET
 	@Path("/courses/{courseId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Lecture> getLecturesByCourse(@QueryParam("courseId") String courseId) {
-		if (courseId == null) {
-			return lectureService.getAllLectures();
-		} else {
-			return lectureService.getLecturesByCourse(courseId);
-		}
+	public List<Lecture> getLecturesByCourse(@QueryParam("courseId") long courseId) {
+		return lectureService.getLecturesByCourse(courseId);
 	}
 
 	@POST
@@ -41,7 +37,7 @@ public class LectureResource {
 	@GET
 	@Path("/{lectureId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Lecture getLecture(@PathParam("lectureId") int lectureId) {
+	public Lecture getLecture(@PathParam("lectureId") long lectureId) {
 		return lectureService.getLecture(lectureId);
 	}
 
@@ -49,14 +45,14 @@ public class LectureResource {
 	@Path("/{lectureId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Lecture updateCourse(@PathParam("lectureId") int id, Lecture lecture) {
+	public Lecture updateCourse(@PathParam("lectureId") long id, Lecture lecture) {
 		return lectureService.updateLectureInformation(id, lecture);
 	}
 
 	@DELETE
 	@Path("/{lectureId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Lecture deleteLecture(@PathParam("lectureId") int lectureId) {
+	public Lecture deleteLecture(@PathParam("lectureId") long lectureId) {
 		return lectureService.deleteLecture(lectureId);
 	}
 }

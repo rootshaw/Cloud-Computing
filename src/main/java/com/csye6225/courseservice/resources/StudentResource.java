@@ -10,7 +10,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.csye6225.courseservice.datamodel.Student;
@@ -28,12 +27,12 @@ public class StudentResource {
 		return studentService.getAllStudents();
 	}
 
-	@GET
-	@Path("/Course/{courseId}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Student> getStudentsByCourse(@QueryParam("courseId") String courseId) {
-		return studentService.getStudentsByCourse(courseId);
-	}
+//	@GET
+//	@Path("/{courseId}/all")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public List<Student> getStudentsByCourse(@QueryParam("courseId") long courseId) {
+//		return studentService.getStudentsByCourse(courseId);
+//	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -45,14 +44,14 @@ public class StudentResource {
 	@GET
 	@Path("/{studentId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Student getStudent(@PathParam("studentId") long id) {
+	public Student searchStudentbyId(@PathParam("studentId") long id) {
 		return studentService.getStudent(id);
 	}
 
 	@DELETE
 	@Path("/{studentId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Student deleteStudent(@PathParam("studentId") long id) {
+	public Student deleteStudentbyId(@PathParam("studentId") long id) {
 		return studentService.deleteStudent(id);
 	}
 
@@ -60,8 +59,8 @@ public class StudentResource {
 	@Path("/{studentId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Student updateStudent(@PathParam("studentId") long id, Student student) {
-		return studentService.updateStudentInformation(id, student);
+	public Student updateStudentId(@PathParam("studentId") long id, Student student) {
+		return studentService.updateStudentId(id, student);
 	}
 
 }

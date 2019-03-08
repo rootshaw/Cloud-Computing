@@ -8,7 +8,7 @@ import com.csye6225.courseservice.datamodel.InMemoryDatabase;
 import com.csye6225.courseservice.datamodel.Professor;
 
 public class ProfessorsService {
-	static HashMap<Long, Professor> prof_Map = InMemoryDatabase.getProfessorDB();
+	static private HashMap<Long, Professor> prof_Map = InMemoryDatabase.getProfessorDB();
 
 	public ProfessorsService() {
 	}
@@ -30,37 +30,35 @@ public class ProfessorsService {
 		long nextAvailableId = prof_Map.size() + 1;
 
 		// Create a Professor Object
-		Professor prof = new Professor(firstName + lastName, firstName, lastName, department, joiningDate);
+		Professor prof = new Professor(firstName + lastName, firstName, lastName, department, joiningDate,
+				nextAvailableId);
 
 		prof_Map.put(nextAvailableId, prof);
 		return prof;
 	}
 
 	// Getting One Professor
-	public Professor getProfessor(String profId) {
-
+	public Professor getProfessor(Long profId) {
 		// Simple HashKey Load
-		Long id = Long.valueOf(profId);
-		Professor prof2 = prof_Map.get(id);
-		System.out.println("Item retrieved:");
-		System.out.println(prof2.toString());
-
-		return prof2;
+		Professor prof = prof_Map.get(profId);
+		if (prof == null) return null;
+		return prof;
 	}
 
 	// Deleting a professor
-	public Professor deleteProfessor(Long profId) {
-		Professor deletedProfDetails = prof_Map.get(profId);
-		prof_Map.remove(profId);
+	public Professor deleteProfessor(Long id) {
+		Professor deletedProfDetails = prof_Map.get(id);
+		prof_Map.remove(id);
 		return deletedProfDetails;
 	}
 
 	// Updating Professor Info
-	public Professor updateProfessorInformation(String profId, Professor prof) {
-		Long id = Long.valueOf(profId);
+	public Professor updateProfessorInformation(Long id, Professor prof) {
 		Professor oldProfObject = prof_Map.get(id);
-		profId = oldProfObject.getProfessorId();
-		prof.setProfessorId(profId);
+		if (oldProfObject == null) return null;
+		prof_Map.put(id, prof);
+		prof.setId(id);
+		prof.setProfessorId(prof.getFirstName() + prof.getLastName());
 		return prof;
 	}
 

@@ -4,11 +4,12 @@ import java.util.HashMap;
 
 public class InMemoryDatabase {
 
+	private static HashMap<String, Program> programDB = new HashMap<>();
 	private static HashMap<Long, Professor> professorDB = new HashMap<>();
 	private static HashMap<Long, Student> studentDB = new HashMap<>();
-	private static HashMap<String, Course> courseDB = new HashMap<>();
-	private static HashMap<Integer, Lecture> lectureDB = new HashMap<>();
-	private static HashMap<String, Program> programDB = new HashMap<>();
+	private static HashMap<Long, Course> courseDB = new HashMap<>();
+	private static HashMap<Long, Lecture> lectureDB = new HashMap<>();
+	
 
 	public static HashMap<Long, Professor> getProfessorDB() {
 		return professorDB;
@@ -18,11 +19,11 @@ public class InMemoryDatabase {
 		return studentDB;
 	}
 
-	public static HashMap<String, Course> getCourseDB() {
+	public static HashMap<Long, Course> getCourseDB() {
 		return courseDB;
 	}
 
-	public static HashMap<Integer, Lecture> getLectureDB() {
+	public static HashMap<Long, Lecture> getLectureDB() {
 		return lectureDB;
 	}
 

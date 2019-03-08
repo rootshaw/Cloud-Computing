@@ -31,13 +31,13 @@ public class StudentService {
 	}
 
 	// get students enrolled in a course
-	public List<Student> getStudentsByCourse(String courseId) {
+	public List<Student> getStudentsByCourse(long courseId) {
 		List<Student> studentList = new ArrayList<>();
-		if (CourseService.course_Map.containsKey(courseId)) {
-			Course course = CourseService.course_Map.get(courseId);
-			for (Student student : course.getStudents()) {
-				studentList.add(student);
-			}
+		Course course = InMemoryDatabase.getCourseDB().get(courseId);
+		if (course == null)
+			return studentList;
+		for (Student student : course.getStudents()) {
+			studentList.add(student);
 		}
 		return studentList;
 	}
@@ -51,19 +51,19 @@ public class StudentService {
 
 	// get a student by ID
 	public Student getStudent(long id) {
-
 		return student_Map.get(id);
 	}
 
 	// delete a student
-	public Student deleteStudent(Long id) {
+	public Student deleteStudent(long id) {
 		Student deletedStudent = student_Map.get(id);
+		if (deletedStudent == null) return null;
 		student_Map.remove(id);
 		return deletedStudent;
 	}
 
 	// update a student
-	public Student updateStudentInformation(long id, Student student) {
+	public Student updateStudentId(long id, Student student) {
 		student.setId(id);
 		student_Map.put(id, student);
 		return student;

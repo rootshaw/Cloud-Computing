@@ -42,7 +42,7 @@ public class ProfessorsResource {
 	@GET
 	@Path("/professor/{professorId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Professor getProfessor(@PathParam("professorId") String profId) {
+	public Professor getProfessor(@PathParam("professorId") long profId) {
 		System.out.println("Professor Resource: Looking for: " + profId);
 		return profService.getProfessor(profId);
 	}
@@ -67,6 +67,6 @@ public class ProfessorsResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Professor updateProfessor(@PathParam("professorId") long profId, Professor prof) {
-		return profService.updateProfessorInformation(profId + "", prof);
+		return profService.updateProfessorInformation(profId, prof);
 	}
 }

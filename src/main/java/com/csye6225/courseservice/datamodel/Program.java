@@ -3,30 +3,30 @@ package com.csye6225.courseservice.datamodel;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Program {
-	String name;
-	List<Course> courses;
+	private String programName;
+	private List<Course> courses;
 
-	public Program() {
-
-	}
-
-	public Program(String name) {
-		this.name = name;
+	@JsonCreator
+	public Program(@JsonProperty("programName")String programName) {
+		this.programName = programName;
 		courses = new ArrayList<>();
 	}
 
-	public Program(String name, List<Course> courses) {
-		this.name = name;
+	public Program(String programName, List<Course> courses) {
+		this.programName = programName;
 		this.courses = courses;
 	}
 
-	public String getName() {
-		return name;
+	public String getProgramName() {
+		return programName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setProgramName(String programName) {
+		this.programName = programName;
 	}
 
 	public List<Course> getCourses() {
@@ -39,12 +39,6 @@ public class Program {
 
 	@Override
 	public String toString() {
-		String str = "ProgramName = " + getName() + " : ";
-		if (courses.isEmpty()) {
-			for (Course course : courses) {
-				str += course.getName() + " ";
-			}
-		}
-		return str;
+		return "ProgramName = " + getProgramName();
 	}
 }

@@ -9,18 +9,19 @@ import com.csye6225.courseservice.datamodel.InMemoryDatabase;
 import com.csye6225.courseservice.datamodel.Lecture;
 
 public class LectureService {
-	static HashMap<Integer, Lecture> lec_Map = InMemoryDatabase.getLectureDB();
+	static private HashMap<Long, Lecture> lectures_Map = InMemoryDatabase.getLectureDB();
 
 	// get all lectures
 	public List<Lecture> getAllLectures() {
 		List<Lecture> list = new ArrayList<>();
-		list.addAll(lec_Map.values());
+		list.addAll(lectures_Map.values());
 		return list;
 	}
 
-	// get all lectures of a course
-	public List<Lecture> getLecturesByCourse(String courseId) {
-		Course course = CourseService.course_Map.get(courseId);
+	// get all lectures by course Id
+	public List<Lecture> getLecturesByCourse(long courseId) {
+		Course course = InMemoryDatabase.getCourseDB().get(courseId);
+		if (course == null) return null;
 		List<Lecture> list = new ArrayList<>();
 		List<Lecture> lecListByCourse = course.getLectures();
 		for (Lecture lec : lecListByCourse) {
@@ -30,43 +31,45 @@ public class LectureService {
 	}
 
 	// add a new lecture
-	public void addLecture(String notes, List<String> materials) {
-		int id = lec_Map.size() + 1;
-		Lecture lecture = new Lecture(id, notes, materials);
-		lec_Map.put(id, lecture);
+	public void addLecture() {
+		long id = lectures_Map.size() + 1;
+		Lecture lecture = new Lecture(id);
+		lectures_Map.put(id, lecture);
 	}
 
 	public Lecture addLecture(Lecture lecture) {
-		int nextId = lec_Map.size() + 1;
+		long nextId = lectures_Map.size() + 1;
 		lecture.setId(nextId);
-		lec_Map.put(nextId, lecture);
+		lectures_Map.put(nextId, lecture);
 		return lecture;
 	}
 
 	// add lecture material
-	public List<String> addMaterailToLecture(int lecId, String content) {
-		Lecture lecture = lec_Map.get(lecId);
+	public List<String> addMaterailToLecture(long lectureId, String content) {
+		Lecture lecture = lectures_Map.get(lectureId);
+		if (lecture == null) return null;
 		lecture.getMaterials().add(content);
-		lec_Map.put(lecId, lecture);
 		return lecture.getMaterials();
 	}
 
 	// get specific lecture
-	public Lecture getLecture(int id) {
-		return lec_Map.get(id);
+	public Lecture getLecture(long id) {
+		return lectures_Map.get(id);
 	}
 
 	// delete specific lecture
-	public Lecture deleteLecture(int id) {
-		Lecture lecture = lec_Map.get(id);
-		lec_Map.remove(id);
+	public Lecture deleteLecture(long id) {
+		Lecture lecture = lectures_Map.get(id);
+		if (lecture == null) return null;
+		lectures_Map.remove(id);
 		return lecture;
 	}
 
 	// update specific lecture
-	public Lecture updateLectureInformation(int id, Lecture lecture) {
+	public Lecture updateLectureInformation(long id, Lecture lecture) {
+		if (lectures_Map.containsKey(lecture.getId())) lectures_Map.remove(lecture.getId());
 		lecture.setId(id);
-		lec_Map.put(id, lecture);
+		lectures_Map.put(id, lecture);
 		return lecture;
 	}
 }

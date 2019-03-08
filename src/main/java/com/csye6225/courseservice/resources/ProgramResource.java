@@ -37,7 +37,7 @@ public class ProgramResource {
 	@GET
 	@Path("/{programName}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Program getProgram(@PathParam("programName") String name) {
+	public Program searchProgram(@PathParam("programName") String name) {
 		return programService.getProgram(name);
 	}
 
@@ -56,11 +56,18 @@ public class ProgramResource {
 		return programService.deleteProgram(name);
 	}
 
-	@DELETE
-	@Path("/{programName}/{courseId}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Program deleteCourseInProgram(@PathParam("courseId") String courseId,
-			@PathParam("programName") String programName) {
-		return programService.deleteCourseInProgram(courseId, programName);
-	}
+//	@GET
+//	@Path("/{programName}/courses")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public List<Course> getCoursesByProgram(@QueryParam("programName") String programName) {
+//		return programService.getCoursesByProgram(programName);
+//	}
+//
+//	@DELETE
+//	@Path("/{programName}/{courseId}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Program deleteCourseInProgram(@PathParam("courseId") long courseId,
+//			@PathParam("programName") String programName) {
+//		return programService.deleteCourse(courseId, programName);
+//	}
 }

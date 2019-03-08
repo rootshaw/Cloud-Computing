@@ -3,35 +3,34 @@ package com.csye6225.courseservice.datamodel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Lecture {
-	int id;
-	String notes;
-	List<String> materials;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-	public Lecture() {
-		this.notes = "";
+public class Lecture {
+	private long id;
+	private List<String> notes;
+	private List<String> materials;
+
+	@JsonCreator
+	public Lecture(@JsonProperty("id")long id) {
+		this.id = id;
+		this.notes = new ArrayList<>();
 		this.materials = new ArrayList<>();
 	}
 
-	public Lecture(int id, String notes, List<String> materials) {
-		this.id = id;
-		this.notes = notes;
-		this.materials = materials;
-	}
-
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public String getNotes() {
+	public List<String> getNotes() {
 		return notes;
 	}
 
-	public void setNotes(String notes) {
+	public void setNotes(List<String> notes) {
 		this.notes = notes;
 	}
 
@@ -45,6 +44,6 @@ public class Lecture {
 
 	@Override
 	public String toString() {
-		return "Id :" + getId() + ",Notes: " + getNotes();
+		return "Id :" + getId();
 	}
 }
